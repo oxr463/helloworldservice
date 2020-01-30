@@ -10,7 +10,7 @@
   "author": "Maarten Smeets",
   "license": "ISC",
   "dependencies": {
-    "async": "^2.0.1",
+    "async": "^3.1.1",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "fs": "0.0.2",
@@ -18,7 +18,7 @@
     "xml2js": "^0.4.17"
   },
   "devDependencies": {
-    "async": "^2.0.0-rc.2",
+    "async": "^3.1.1",
     "mocha": "^2.4.5",
     "request": "^2.69.0"
   }
