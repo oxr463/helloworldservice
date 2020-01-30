@@ -4,7 +4,8 @@
   "description": "Sample of simple orchestration",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --debug-brk"
+    "test": "mocha --debug-brk",
+    "start": "node app.js"
   },
   "author": "Maarten Smeets",
   "license": "ISC",
