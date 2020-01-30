@@ -1,0 +1,6 @@
+{
+  "name": "HelloWorldService",
+  "description": "Sample of simple orchestration",
+  "repository": "https://github.com/oxr463/helloworldservice",
+  "keywords": ["nodejs", "soap", "wsdl", "javascript", "express"]
+}
