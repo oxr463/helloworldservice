@@ -1,18 +1,19 @@
-var express = require('express');
-var http = require('http');
-var parseString = require('xml2js').parseString;
-var stripPrefix = require('xml2js').processors.stripPrefix;
-var Builder = require('xml2js').Builder;
-var fs = require("fs");
-var util = require("util");
-var url = require('url');
-var async = require('async');
-var bodyParser = require('body-parser');
-var myutils = require('./myutils');
-var router = express.Router();
-var helloworldservice = {};
+const express = require('express');
+const http = require('http');
+const parseString = require('xml2js').parseString;
+const stripPrefix = require('xml2js').processors.stripPrefix;
+const Builder = require('xml2js').Builder;
+const fs = require("fs");
+const util = require("util");
+const url = require('url');
+const async = require('async');
+const bodyParser = require('body-parser');
+const myutils = require('./myutils');
+const router = express.Router();
+const mongoose = require("mongoose");
 
-var servicewsdl = 'helloworld.wsdl';
+var helloworldservice = {},
+    servicewsdl = 'helloworld.wsdl';
 
 router.use(bodyParser.text({ type: '*/*' }));
 router.use(function timeLogStart(req, res, next) {
@@ -35,7 +36,12 @@ router.get('/', function (req, res, next) {
             }
         });
     } else {
-        endResponse("Invalid GET request");
+        const repo_url = "https://github.com/oxr463/helloworldservice";
+        endResponse(
+            '<!DOCTYPE html><html><head>' +
+            '<meta http-equiv="content-type" content="text/html; charset=utf-8" />' +
+            '<meta http-equiv="refresh" content="0;url=' + repo_url + '" /></head></html>'
+        );
     }
 
     function endResponse(data) {
@@ -49,14 +55,9 @@ router.post('/', function (req, res, next) { //process
     myutils.logger("POST");
     async.waterfall([
         function (cb) {
-            myutils.logger('Convert POST request to usable JSON');
-            //myutils.logger('Input: '+JSON.stringify(req.body));
-            //removing the prefix to make processing more easy
             parseString(req.body, { tagNameProcessors: [stripPrefix] }, cb);
         },
         function (result, cb) {
-            myutils.logger('Processing JSONized XML message');
-            //myutils.logger('Input: ' + JSON.stringify(result));
             var body = result["Envelope"]["Body"];
             //finding the correct elements
             var sayHello = myutils.search("sayHello", body);
@@ -71,7 +72,6 @@ router.post('/', function (req, res, next) { //process
             }
             //building the response
             var builder = new Builder();
-            //var xmlresponse = '<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:examples:helloservice"><soapenv:Header/><soapenv:Body><urn:sayHelloResponse soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><greeting xsi:type="xsd:string">?</greeting></urn:sayHelloResponse></soapenv:Body></soapenv:Envelope>'
 
             var jsonresponse = {
                 "soapenv:Envelope": {
