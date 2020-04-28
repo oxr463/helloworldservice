@@ -14,7 +14,7 @@ var helloworldservice = {
     }
 };
 
-var wsdl = require('fs').readFileSync('helloworld.wsdl', 'utf8');
+var wsdl = require('fs').readFileSync('wsdl.xml', 'utf8');
 
 var server = http.createServer(function (request, response) {
     response.end("404: Not Found: " + request.url);
