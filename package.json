@@ -1,6 +1,6 @@
 {
   "name": "helloworldservice",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Sample of simple orchestration",
   "repository": "https://github.com/oxr463/helloworldservice",
   "main": "src/main.js",
