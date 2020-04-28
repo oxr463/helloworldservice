@@ -2,6 +2,7 @@
   "name": "helloworldservice",
   "version": "1.0.0",
   "description": "Sample of simple orchestration",
+  "repository": "https://github.com/oxr463/helloworldservice",
   "main": "src/main.js",
   "scripts": {
     "test": "mocha --debug-brk",
@@ -18,8 +19,15 @@
     "xml2js": "^0.4.17"
   },
   "devDependencies": {
-    "async": "^3.1.1",
+    "husky": "^4.2.5",
     "mocha": "^7.0.1",
+    "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1",
     "request": "^2.69.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
