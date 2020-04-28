@@ -1,20 +1,18 @@
 const async = require('async');
+const bodyParser = require('body-parser');
+const Builder = require('xml2js').Builder;
 const express = require('express');
+const fs = require("fs");
 const http = require('http');
 const parseString = require('xml2js').parseString;
+const router = express.Router();
 const stripPrefix = require('xml2js').processors.stripPrefix;
-const Builder = require('xml2js').Builder;
-const fs = require("fs");
 const util = require("util");
 const url = require('url');
-const bodyParser = require('body-parser');
-const router = express.Router();
 
 const utils = require('./utils');
 
-var helloworldservice = {};
-
-var servicewsdl = 'helloworld.wsdl';
+var wsdl = 'wsdl.xml';
 
 router.use(bodyParser.text({ type: '*/*' }));
 router.use(function timeLogStart(req, res, next) {
@@ -29,7 +27,7 @@ router.get('/', function (req, res, next) {
     if (req.query.wsdl === "") {
         res.setHeader('Content-Type', 'application/xml');
         res.statusCode = 200;
-        fs.readFile(servicewsdl, "utf8", function (err, data) {
+        fs.readFile(wsdl, "utf8", function (err, data) {
             if (err) {
                 endResponse(err);
             } else {
