@@ -2,11 +2,11 @@ const port = process.env.PORT || 3000;
 
 const express = require('express');
 
-const helloworldservice = require('./helloworldservice');
+const service = require('./wsdl');
 
 var app = express();
 
-app.use('/helloworldservice', helloworldservice);
+app.use('/helloworldservice', service);
 app.listen(port);
 
 console.log('server running on port ' + port);
