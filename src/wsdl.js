@@ -1,3 +1,5 @@
+"use strict";
+
 const async = require("async");
 const bodyParser = require("body-parser");
 const Builder = require("xml2js").Builder;
@@ -12,7 +14,7 @@ const url = require("url");
 
 const utils = require("./utils");
 
-var wsdl = "./wsdl.xml";
+const wsdl = fs.readFileSync("./src/wsdl.xml", "utf8");
 
 router.use(bodyParser.text({ type: "*/*" }));
 router.use(function timeLogStart(req, res, next) {
@@ -27,13 +29,7 @@ router.get("/", function (req, res, next) {
   if (req.query.wsdl === "") {
     res.setHeader("Content-Type", "application/xml");
     res.statusCode = 200;
-    fs.readFile(wsdl, "utf8", function (err, data) {
-      if (err) {
-        endResponse(err);
-      } else {
-        endResponse(data);
-      }
-    });
+    endResponse(wsdl);
   } else {
     endResponse("Invalid GET request");
   }
