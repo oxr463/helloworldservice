@@ -23,7 +23,9 @@ npm start
 
 ## Environment Variables
 
-- `PORT`
+| Environment Variable | Default Value |
+| -------------------- | ------------- |
+| `PORT`               | `3000`        |
 
 ## Acknowledgements
 
