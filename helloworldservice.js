@@ -1,29 +1,31 @@
-var express = require('express');
-var http = require('http');
-var parseString = require('xml2js').parseString;
-var stripPrefix = require('xml2js').processors.stripPrefix;
-var Builder = require('xml2js').Builder;
-var fs = require("fs");
-var util = require("util");
-var url = require('url');
-var async = require('async');
-var bodyParser = require('body-parser');
-var myutils = require('./myutils');
-var router = express.Router();
+const async = require('async');
+const express = require('express');
+const http = require('http');
+const parseString = require('xml2js').parseString;
+const stripPrefix = require('xml2js').processors.stripPrefix;
+const Builder = require('xml2js').Builder;
+const fs = require("fs");
+const util = require("util");
+const url = require('url');
+const bodyParser = require('body-parser');
+const router = express.Router();
+
+const utils = require('./utils');
+
 var helloworldservice = {};
 
 var servicewsdl = 'helloworld.wsdl';
 
 router.use(bodyParser.text({ type: '*/*' }));
 router.use(function timeLogStart(req, res, next) {
-    myutils.logger('Request start');
+    utils.logger('Request start');
     res.locals.startTimeHR = process.hrtime();
     next();
 });
 
-//for the wsdl: http://localhost:3000/helloworldservice?wsdl
+// http://localhost:3000/helloworldservice?wsdl
 router.get('/', function (req, res, next) {
-    myutils.logger("GET");
+    utils.logger("GET");
     if (req.query.wsdl === "") {
         res.setHeader('Content-Type', 'application/xml');
         res.statusCode = 200;
@@ -45,23 +47,19 @@ router.get('/', function (req, res, next) {
     }
 });
 
-router.post('/', function (req, res, next) { //process 
-    myutils.logger("POST");
+router.post('/', function (req, res, next) {
+    utils.logger("POST");
     async.waterfall([
         function (cb) {
-            myutils.logger('Convert POST request to usable JSON');
-            //myutils.logger('Input: '+JSON.stringify(req.body));
-            //removing the prefix to make processing more easy
+            utils.logger('Convert POST request to usable JSON');
             parseString(req.body, { tagNameProcessors: [stripPrefix] }, cb);
         },
         function (result, cb) {
-            myutils.logger('Processing JSONized XML message');
-            //myutils.logger('Input: ' + JSON.stringify(result));
+            utils.logger('Processing JSONized XML message');
             var body = result["Envelope"]["Body"];
-            //finding the correct elements
-            var sayHello = myutils.search("sayHello", body);
-            var firstName = myutils.search("firstName", sayHello);
-            var firstNameValue = myutils.search("_", firstName);
+            var sayHello = utils.search("sayHello", body);
+            var firstName = utils.search("firstName", sayHello);
+            var firstNameValue = utils.search("_", firstName);
             cb(null, 'Hello ' + firstNameValue);
         }
     ],
@@ -69,9 +67,7 @@ router.post('/', function (req, res, next) { //process
             if (err) {
                 results = "I don't know your name";
             }
-            //building the response
             var builder = new Builder();
-            //var xmlresponse = '<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:examples:helloservice"><soapenv:Header/><soapenv:Body><urn:sayHelloResponse soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><greeting xsi:type="xsd:string">?</greeting></urn:sayHelloResponse></soapenv:Body></soapenv:Envelope>'
 
             var jsonresponse = {
                 "soapenv:Envelope": {
@@ -103,7 +99,7 @@ router.post('/', function (req, res, next) { //process
 
             var xmlresponse = builder.buildObject(jsonresponse);
 
-            myutils.logger('Returning response Result: ' + JSON.stringify(results) + ' Error: ' + JSON.stringify(err));
+            utils.logger('Returning response Result: ' + JSON.stringify(results) + ' Error: ' + JSON.stringify(err));
 
             res.setHeader('Content-Type', 'application/xml');
             res.statusCode = 200;
@@ -115,7 +111,7 @@ router.post('/', function (req, res, next) { //process
 
 router.use(function timeLogEnd(req, res, next) {
     var durationHR = process.hrtime(res.locals.startTimeHR);
-    myutils.logger("Request end. Duration: %ds %dms", durationHR[0], durationHR[1] / 1000000);
+    utils.logger("Request end. Duration: %ds %dms", durationHR[0], durationHR[1] / 1000000);
     next();
 });
 
