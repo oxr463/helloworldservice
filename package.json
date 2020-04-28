@@ -2,10 +2,10 @@
   "name": "helloworldservice",
   "version": "1.0.0",
   "description": "Sample of simple orchestration",
-  "main": "app.js",
+  "main": "src/main.js",
   "scripts": {
     "test": "mocha --debug-brk",
-    "start": "node app.js"
+    "start": "node src/main.js"
   },
   "author": "Maarten Smeets",
   "license": "ISC",
