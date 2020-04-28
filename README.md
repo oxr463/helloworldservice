@@ -1,6 +1,7 @@
 # Hello World Service
 
- [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy](https://img.shields.io/badge/deploy-heroku-7056bf?style=flat-square)](https://heroku.com/deploy)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://spdx.org/licenses/MIT.html)
 
 ## Web Services Description Language (WSDL)
 
