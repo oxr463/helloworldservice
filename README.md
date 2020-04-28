@@ -16,3 +16,7 @@ https://{{hostname}}/helloworldservice?wsdl
 ## License
 
 SPDX-License-Identifier: [MIT](LICENSE)
+
+## Reference
+
+- [soap.listen(server, path, services, wsdl, callback) - create a new SOAP server that listens on path and provides services.](https://github.com/vpulim/node-soap#soaplistenserver-path-services-wsdl-callback---create-a-new-soap-server-that-listens-on-path-and-provides-services)
