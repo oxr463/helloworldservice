@@ -10,7 +10,7 @@
   "author": "Maarten Smeets",
   "license": "ISC",
   "dependencies": {
-    "async": "^3.1.1",
+    "async": "^3.2.1",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "fs": "0.0.2",
